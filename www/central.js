@@ -10,9 +10,10 @@ function isNotAcceptable(val) {
     return val === undefined || val === null || val === '';
 }
 
-var Central = {
+var CoachCareBluetooth = {
 
     scan: function(options, successCallback, errorCallback) {
+        console.log('in scan function')
         var uuids = null;
         var args = [uuids];
         exec(successCallback, errorCallback, PLUGIN_NAME, 'startDeviceScan', args);
@@ -156,4 +157,4 @@ var Central = {
     }
 };
 
-module.exports = Central;
+module.exports = CoachCareBluetooth;
