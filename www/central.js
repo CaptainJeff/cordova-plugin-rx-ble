@@ -10,7 +10,7 @@ function isNotAcceptable(val) {
     return val === undefined || val === null || val === '';
 }
 
-var CoachCareBluetooth = {
+var BleCentral = {
 
     scan: function(options, successCallback, errorCallback) {
         console.log('in scan function')
@@ -157,4 +157,4 @@ var CoachCareBluetooth = {
     }
 };
 
-module.exports = CoachCareBluetooth;
+module.exports = BleCentral;
