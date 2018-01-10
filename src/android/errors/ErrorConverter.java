@@ -11,7 +11,7 @@ public class ErrorConverter {
 
     public Error toError(Throwable throwable) {
         if (throwable instanceof BleScanException) {
-            return toError((BleScanException) throwable);
+            return toScanError((BleScanException) throwable);
         }
         if (throwable instanceof BleAlreadyConnectedException) {
             return new Error(throwable.toString(), 203);
@@ -31,7 +31,7 @@ public class ErrorConverter {
         return new Error("Unknown error: " + throwable.toString(), 0);
     }
 
-    private Error toError(BleScanException bleScanException) {
+    private Error toScanError(BleScanException bleScanException) {
         final int reason = bleScanException.getReason();
         switch (reason) {
             case BleScanException.BLUETOOTH_CANNOT_START:
