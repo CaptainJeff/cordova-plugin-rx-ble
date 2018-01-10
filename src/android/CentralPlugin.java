@@ -113,10 +113,12 @@ public class CentralPlugin extends CordovaPlugin {
   }
 
   private void createClient() {
+      Log.e(tag, "Create Client");
       rxBleClient = RxBleClient.create(this.getApplicationContext());
   }
 
   private void destroyClient() {
+    Log.e(tag, "Destroy Client");
       if (scanSubscription != null && !scanSubscription.isUnsubscribed()) {
           scanSubscription.unsubscribe();
           scanSubscription = null;
@@ -147,7 +149,7 @@ public class CentralPlugin extends CordovaPlugin {
       final String transactionId = args.getString(5);
 
       final RxBleDevice device = rxBleClient.getBleDevice(deviceId);
-
+      Log.e(tag, "writeCharacteristic");
       if (device == null) {
           sendError(callbackContext, BleError.deviceNotFound(deviceId).toJS(), false);
           return;
@@ -475,7 +477,7 @@ public class CentralPlugin extends CordovaPlugin {
   }
 
   private void startDeviceScan(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-
+      Log.e(tag, "startDeviceScan");
       final UUID[] uuids;
 
       // JSONArray filteredUUIDs = args.get(0) == null ? null : args.getJSONArray(0);
@@ -489,17 +491,19 @@ public class CentralPlugin extends CordovaPlugin {
 
       cordova.getThreadPool().execute(new Runnable() {
           public void run() {
-
+              Log.e(tag, "getThreadPool");
               scanSubscription = rxBleClient
                       .scanBleDevices(uuids)
                       .subscribe(new Action1<RxBleScanResult>() {
                           @Override
                           public void call(RxBleScanResult rxBleScanResult) {
+                              Log.e(tag, "scanSubscription" + scanResult.toJSObject(rxBleScanResult));
                               sendSuccess(callbackContext, scanResult.toJSObject(rxBleScanResult), true);
                           }
                       }, new Action1<Throwable>() {
                           @Override
                           public void call(Throwable throwable) {
+                              Log.e(tag, "scanSubscription err" + errorConverter.toError(throwable).toJS());
                               sendError(callbackContext, errorConverter.toError(throwable).toJS(), true);
                           }
                       });
@@ -727,24 +731,28 @@ public class CentralPlugin extends CordovaPlugin {
   }
 
   private void sendError(final CallbackContext callbackContext, JSONObject object, boolean keepCallback) {
+      Log.e(tag, "send error");
       PluginResult result = new PluginResult(PluginResult.Status.ERROR, object);
       result.setKeepCallback(keepCallback);
       callbackContext.sendPluginResult(result);
   }
 
   private void sendSuccess(final CallbackContext callbackContext, JSONObject object, boolean keepCallback) {
-      PluginResult result = new PluginResult(PluginResult.Status.OK, object);
+    Log.e(tag, "sendSuccess json object");
+    PluginResult result = new PluginResult(PluginResult.Status.OK, object);
       result.setKeepCallback(keepCallback);
       callbackContext.sendPluginResult(result);
   }
 
   private void sendSuccess(final CallbackContext callbackContext, JSONArray object, boolean keepCallback) {
+      Log.e(tag, "sendSuccess json JSONArray");
       PluginResult result = new PluginResult(PluginResult.Status.OK, object);
       result.setKeepCallback(keepCallback);
       callbackContext.sendPluginResult(result);
   }
 
   private void sendSuccess(final CallbackContext callbackContext, boolean object, boolean keepCallback) {
+      Log.e(tag, "sendSuccess boolean");
       PluginResult result = new PluginResult(PluginResult.Status.OK, object);
       result.setKeepCallback(keepCallback);
       callbackContext.sendPluginResult(result);
