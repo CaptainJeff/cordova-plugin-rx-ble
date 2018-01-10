@@ -19,6 +19,21 @@ var BleCentral = {
         exec(successCallback, errorCallback, PLUGIN_NAME, 'startDeviceScan', args);
     },
 
+    test: function(options, successCallback, errorCallback) {
+        console.log('test')
+        console.log('options', options)
+        try {
+          throw new Error();
+        }
+        catch (e) {
+          try {
+            return e.stack.split('at ')[3].split(' ')[0];
+          } catch (e) {
+            return '';
+          }
+        }
+    },
+
     stopScan: function(successCallback, errorCallback) {
         exec(successCallback, errorCallback, PLUGIN_NAME, 'stopScan', []);
     },
