@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.support.v4.util.Pair;
 import android.util.Base64;
+import android.util.Log;
 
 import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleConnection;
@@ -63,7 +64,7 @@ public class CentralPlugin extends CordovaPlugin {
   @Override
   protected void pluginInitialize() {
       super.pluginInitialize();
-
+      log.a(tag, "pluginInitialized");
       this.createClient();
       RxBleClient.setLogLevel(RxBleLog.DEBUG);
   }
